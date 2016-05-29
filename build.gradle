@@ -27,12 +27,10 @@ if (JavaVersion.current().isJava8Compatible()) {
 }
 
 project(":alexml") {
-    apply from : '../publish.gradle'
+    apply plugin: "maven"
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        testCompile "junit:junit:$jUnitVersion"
-        testCompile "org.mockito:mockito-core:$mockitoVersion"
     }
 }
 
