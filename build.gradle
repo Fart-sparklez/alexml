@@ -1,0 +1,38 @@
+
+subprojects {
+    apply plugin: "eclipse"
+    apply plugin: "idea"
+    apply plugin: "java"
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    }
+}
+
+ext {
+    projectGroup = "alexml"
+    gdxVersion = "1.9.3"
+}
+
+/** needed to disable Java 8 doclint which throws errors **/
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+    }
+}
+
+project(":alexml") {
+    apply from : '../publish.gradle'
+
+    dependencies {
+        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        testCompile "junit:junit:$jUnitVersion"
+        testCompile "org.mockito:mockito-core:$mockitoVersion"
+    }
+}
+
