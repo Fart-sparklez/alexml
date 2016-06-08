@@ -1,0 +1,7 @@
+<sprite>
+	<subsprite path="c:/artz/sprite.png">
+		<animation id="test">
+			<frame x="0" y="0" width="100" height="100" drawx="0" drawy="0"/>
+		</animation>
+	</subsprite>
+</sprite>
