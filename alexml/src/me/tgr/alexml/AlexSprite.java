@@ -39,8 +39,12 @@ public class AlexSprite extends Group {
     }
 
     public void setAnimation(String id) {
-        for (SubSprite sub : subSprites) {
-            sub.setAnimation(id);
+        try {
+            for (SubSprite sub : subSprites) {
+                sub.setAnimation(id);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("No key");
         }
     }
 

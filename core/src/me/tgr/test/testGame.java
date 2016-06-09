@@ -24,6 +24,8 @@ public class testGame extends ApplicationAdapter implements EventListener {
 	TextButton refreshButton;
 
 	TextArea inputArea;
+	Label infos;
+	float infoReset;
 
 
 	private AlexSprite sprite;
@@ -44,32 +46,51 @@ public class testGame extends ApplicationAdapter implements EventListener {
 		setButton = new TextButton("Set Animation", skin);
 
 		inputArea = new TextArea("", skin);
+		infos = new Label("alexml", skin);
+		infoReset = 0;
 
 
 		openButton.addListener(new ClickListener() {
 			@Override
 			public void clicked (InputEvent e, float x, float y) {
-				sprite.remove();
-				spritename = inputArea.getText();
+				try {
+					sprite.remove();
+					spritename = inputArea.getText();
 
-				sprite = new AlexSprite(spritename);
+					sprite = new AlexSprite(spritename);
+					sprite.setAnimation(currentAnimation);
+					stage.addActor(sprite);
+				} catch (Exception ex) {
+					infos.setText("Couldn't open file");
+					infoReset = 0.8f;
+				}
 			}
 		});
 		setButton.addListener(new ClickListener() {
 			@Override
 			public void clicked (InputEvent e, float x, float y) {
-				currentAnimation = inputArea.getText();
+				try {
+					currentAnimation = inputArea.getText();
 
-				sprite.setAnimation(currentAnimation);
+					sprite.setAnimation(currentAnimation);
+				} catch (Exception ex) {
+					infos.setText("Animation does not exist");
+					infoReset = 0.8f;
+				}
 			}
 		});
 		refreshButton.addListener(new ClickListener() {
 			@Override
 			public void clicked (InputEvent e, float x, float y) {
-				sprite.remove();
-				sprite = new AlexSprite(spritename);
-				sprite.setAnimation(currentAnimation);
-				stage.addActor(sprite);
+				try {
+					sprite.remove();
+					sprite = new AlexSprite(spritename);
+					sprite.setAnimation(currentAnimation);
+					stage.addActor(sprite);
+				} catch (Exception ex) {
+					infos.setText("Did you delete the file?");
+					infoReset = 0.8f;
+				}
 			}
 		});
 
@@ -77,10 +98,11 @@ public class testGame extends ApplicationAdapter implements EventListener {
 		vg.addActor(setButton);
 		vg.addActor(refreshButton);
 		vg.addActor(inputArea);
+		vg.addActor(infos);
 
 		stage.addActor(vg);
 
-		spritename = "c:/artz/sprite.xml";
+		spritename = "sprite.xml";
 		sprite = new AlexSprite(spritename);
 
 		currentAnimation = "test";
@@ -95,6 +117,11 @@ public class testGame extends ApplicationAdapter implements EventListener {
 
 		stage.act();
 		stage.draw();
+
+		infoReset -= Gdx.graphics.getDeltaTime();
+		if (infoReset < 0 && infos.getText().toString() != "alexml") {
+			infos.setText("alexml");
+		}
 	}
 
 	@Override

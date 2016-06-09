@@ -22,6 +22,7 @@ public class SubSprite extends Actor {
 
     private HashMap<String, TextureAtlas> atlases;
     private HashMap<String, Vector2[]> drawCoords;
+    public ArrayList<String> keys;
     private String currentKey;
     private Animation currentAnimation;
     private float et;
@@ -30,6 +31,7 @@ public class SubSprite extends Actor {
     public SubSprite(Element sub, NodeList subAnimations) {
         atlases = new HashMap<String, TextureAtlas>();
         drawCoords = new HashMap<String, Vector2[]>();
+        keys = new ArrayList<String>();
 
 
         String thisPath = sub.getAttribute("path");
@@ -61,6 +63,7 @@ public class SubSprite extends Actor {
                         atlas.addRegion(Integer.toString(i), texture, Integer.parseInt(x), Integer.parseInt(y), Integer.parseInt(width), Integer.parseInt(height));
                     }
                 }
+                keys.add(thisAnimation.getAttribute("id"));
                 atlases.put(thisAnimation.getAttribute("id"), atlas);
                 drawCoords.put(thisAnimation.getAttribute("id"), thisDrawCoords);
             }
@@ -73,6 +76,9 @@ public class SubSprite extends Actor {
 
 
     public void setAnimation(String newKey) { //generates animation on the fly from the key loookup and the atlas
+        if (!keys.contains(newKey)) {
+            throw new NullPointerException();
+        }
         currentKey = newKey;
         currentAnimation = new Animation(1 / 10f, atlases.get(currentKey).getRegions());
         currentAnimation.setPlayMode(Animation.PlayMode.LOOP);
