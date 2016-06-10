@@ -1,6 +1,5 @@
 package me.tgr.alexml;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -11,9 +10,13 @@ import java.util.ArrayList;
 
 /**
  * Created by gforcedev on 12/04/2016.
+ *
+ * AlexSprite houses the subsprites within it. At some point, this class will need a slight rework to be able to only
+ * draw subsprites which are part of the current animation, as part of the upcoming change of not every subsprite needing
+ * to have every animation.
  */
 public class AlexSprite extends Group {
-    private ArrayList<SubSprite> subSprites;
+    private final ArrayList<SubSprite> subSprites;
 
     private String currentKey;
 
@@ -23,6 +26,8 @@ public class AlexSprite extends Group {
         Document doc = Alexml.getDocument(path);
 
         {
+            //noinspection ConstantConditions
+            //this is an api, if their document is wrong its their fault
             int length = doc.getDocumentElement().getElementsByTagName("subsprite").getLength();
             NodeList subsprites = doc.getDocumentElement().getElementsByTagName("subsprite");
 

@@ -27,10 +27,10 @@ import java.util.HashMap;
  */
 class SubSprite extends Actor {
 
-    private HashMap<String, TextureAtlas> atlases;
-    private HashMap<String, Vector2[]> drawCoords;
-    private HashMap<String, Float> speeds;
-    private ArrayList<String> keys;
+    private final HashMap<String, TextureAtlas> atlases;
+    private final HashMap<String, Vector2[]> drawCoords;
+    private final HashMap<String, Float> speeds;
+    private final ArrayList<String> keys;
     private String currentKey;
 
     private Animation currentAnimation;
