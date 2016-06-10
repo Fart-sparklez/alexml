@@ -3,6 +3,7 @@ package me.tgr.test;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -10,10 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import me.tgr.alexml.AlexSprite;
 
 
-public class testGame extends ApplicationAdapter implements EventListener {
+public class testGame extends ApplicationAdapter {
 	private Stage stage;
 	private Skin skin;
 	String spritename;
@@ -125,7 +128,12 @@ public class testGame extends ApplicationAdapter implements EventListener {
 	}
 
 	@Override
-	public boolean handle(Event event) {
-		return false;
+	public void resize (int width, int height) {
+		stage.getViewport().update(width, height, true);
+	}
+
+	@Override
+	public void dispose() {
+		stage.dispose();
 	}
 }
