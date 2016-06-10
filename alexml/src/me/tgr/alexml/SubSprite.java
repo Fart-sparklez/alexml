@@ -22,6 +22,7 @@ public class SubSprite extends Actor {
 
     private HashMap<String, TextureAtlas> atlases;
     private HashMap<String, Vector2[]> drawCoords;
+    private HashMap<String, Float> speeds;
     public ArrayList<String> keys;
     private String currentKey;
     private Animation currentAnimation;
@@ -31,6 +32,7 @@ public class SubSprite extends Actor {
     public SubSprite(Element sub, NodeList subAnimations) {
         atlases = new HashMap<String, TextureAtlas>();
         drawCoords = new HashMap<String, Vector2[]>();
+        speeds = new HashMap<String, Float>();
         keys = new ArrayList<String>();
 
 
@@ -66,6 +68,7 @@ public class SubSprite extends Actor {
                 keys.add(thisAnimation.getAttribute("id"));
                 atlases.put(thisAnimation.getAttribute("id"), atlas);
                 drawCoords.put(thisAnimation.getAttribute("id"), thisDrawCoords);
+                speeds.put(thisAnimation.getAttribute("id"), Float.parseFloat(thisAnimation.getAttribute("speed")));
             }
         }
         setOrigin(0, 0);
@@ -80,7 +83,7 @@ public class SubSprite extends Actor {
             throw new NullPointerException();
         }
         currentKey = newKey;
-        currentAnimation = new Animation(1 / 10f, atlases.get(currentKey).getRegions());
+        currentAnimation = new Animation(speeds.get(currentKey), atlases.get(currentKey).getRegions());
         currentAnimation.setPlayMode(Animation.PlayMode.LOOP);
     }
 

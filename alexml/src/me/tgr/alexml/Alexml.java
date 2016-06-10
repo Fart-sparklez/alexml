@@ -14,6 +14,7 @@ import java.util.HashMap;
 
 /**
  * Created by Gforcedev on 15/02/2016.
+ * MainClass
  */
 public class Alexml {
     public static Document getDocument(String filename) {
@@ -40,7 +41,6 @@ public class Alexml {
         Texture texture = new Texture(doc.getDocumentElement().getAttribute("path"));
         NodeList animations = doc.getElementsByTagName("animation");
 
-
         for (int anim = 0; anim < animations.getLength(); anim++) {
             if (animations.item(anim).getNodeType() == Node.ELEMENT_NODE) {
                 Element thisAnimation = (Element) animations.item(anim);
@@ -60,6 +60,7 @@ public class Alexml {
                         atlas.addRegion(Integer.toString(i), texture, Integer.parseInt(x), Integer.parseInt(y), Integer.parseInt(width), Integer.parseInt(height));
                     }
                 }
+
                 atlases.put(thisAnimation.getAttribute("animationid"), atlas);
             }
         }
