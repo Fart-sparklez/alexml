@@ -1,6 +1,10 @@
 # Alexml
 Alexml is an xml-based tool for animating libgdx sprites with scene2d. Go to the [wiki](https://github.com/gforcedev/alexml/wiki) to get started!
 
+## Getting the editor
+Head over to the [releases page](https://github.com/gforcedev/alexml/releases/) and grab the latest zip for your platform.
+Simply extract to a location of your choice, and run the jar.
+
 ## License - MIT
 
 Copyright (c) 2016 Gforcedev
