@@ -46,7 +46,7 @@ class SubSprite extends Actor {
 
         String thisPath = sub.getAttribute("path");
 
-        Texture texture = new Texture(thisPath);
+        Texture texture = new Texture(Gdx.files.internal(thisPath));
 
         for (int anim = 0; anim < subAnimations.getLength(); anim++) {
             if (subAnimations.item(anim).getNodeType() == Node.ELEMENT_NODE) {
