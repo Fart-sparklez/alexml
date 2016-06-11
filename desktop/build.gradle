@@ -1,8 +1,9 @@
 apply plugin: "java"
 
+sourceCompatibility = 1.6
 sourceSets.main.java.srcDirs = [ "src/" ]
 
-project.ext.mainClassName = "me.tgr.test.desktop.DesktopLauncher"
+project.ext.mainClassName = "me.gforcedev.alexeditor.desktop.DesktopLauncher"
 project.ext.assetsDir = new File("../core/assets");
 
 task run(dependsOn: classes, type: JavaExec) {
