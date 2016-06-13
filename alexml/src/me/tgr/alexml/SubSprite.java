@@ -87,11 +87,21 @@ class SubSprite extends Actor {
                         }
 
                         String drawX = eframe.getAttribute("drawx");
+                        boolean isXRel;
+
+                        isXRel = drawX.substring(0, 1).equals("~");
+                        drawX = drawX.substring(1);
+
                         if (drawX.equals("")) {
                             drawX = "0";
                         }
 
                         String drawY = eframe.getAttribute("drawy");
+                        boolean isYRel;
+
+                        isYRel = drawY.substring(0, 1).equals("~");
+                        drawY = drawY.substring(1);
+
                         if (drawY.equals("")) {
                             drawY = "0";
                         }
@@ -102,7 +112,17 @@ class SubSprite extends Actor {
                             speed = "0.1";
                         }
 
-                        thisDrawCoords[i] = (new Vector2(Integer.parseInt(drawX), Integer.parseInt(drawY)));
+                        int thisDrawX = Integer.parseInt(drawX);
+                        if (isXRel) {
+                            thisDrawX += atlas.getRegions().get(atlas.getRegions().size - 1).getRegionX();
+                        }
+
+                        int thisDrawY = Integer.parseInt(drawY);
+                        if (isYRel) {
+                            thisDrawY += atlas.getRegions().get(atlas.getRegions().size - 1).getRegionY();
+                        }
+
+                        thisDrawCoords[i] = new Vector2(thisDrawX, thisDrawY);
                         atlas.addRegion(Integer.toString(i), texture, Integer.parseInt(x), Integer.parseInt(y), Integer.parseInt(width), Integer.parseInt(height));
                     }
                 }
@@ -116,7 +136,6 @@ class SubSprite extends Actor {
         setScale(1, 1);
         setRotation(0);
     }
-
 
     void setAnimation(String newKey) { //generates animation on the fly from the key loookup and the atlas
         if (!keys.contains(newKey)) {
