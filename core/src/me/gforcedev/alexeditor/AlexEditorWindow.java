@@ -24,14 +24,21 @@ public class AlexEditorWindow extends ApplicationAdapter {
 
     @Override
     public void create() {
+        spritename = "data/sprite.xml";
+        currentAnimation = "test";
+    }
+
+    public void setupUI() {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
         //ui
         Skin skin = new Skin(Gdx.files.internal("data/uiskin.json"));
-        VerticalGroup vg = new VerticalGroup().space(3).pad(5).fill();
+        Table table = new Table();
+        stage.addActor(table);
         //just the top fifth
-        vg.setBounds(20, Gdx.graphics.getHeight() - 100, Gdx.graphics.getWidth() / 5, Gdx.graphics.getHeight() / 5);
+
+        table.setFillParent(true);
 
         TextButton openButton = new TextButton("Open File", skin);
         TextButton refreshButton = new TextButton("Refresh", skin);
@@ -86,21 +93,16 @@ public class AlexEditorWindow extends ApplicationAdapter {
             }
         });
 
-        vg.addActor(openButton);
-        vg.addActor(setButton);
-        vg.addActor(refreshButton);
-        vg.addActor(inputArea);
-        vg.addActor(info);
+        table.add(openButton);
+        table.add(setButton);
+        table.add(refreshButton);
+        table.add(inputArea);
+        table.add(info);
 
-        stage.addActor(vg);
-
-        spritename = "data/sprite.xml";
         sprite = new AlexSprite(spritename);
-
-        currentAnimation = "test";
-        sprite.setAnimation(currentAnimation);
         stage.addActor(sprite);
     }
+
 
     @Override
     public void render() {
@@ -118,7 +120,7 @@ public class AlexEditorWindow extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
+        setupUI();
     }
 
     @Override

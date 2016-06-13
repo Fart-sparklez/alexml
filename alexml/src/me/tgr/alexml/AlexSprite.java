@@ -17,11 +17,12 @@ import java.util.ArrayList;
  */
 public class AlexSprite extends Group {
     private final ArrayList<SubSprite> subSprites;
-
+    private final ArrayList<String> keys;
     private String currentKey;
 
     public AlexSprite(String path) {
         subSprites = new ArrayList<SubSprite>();
+        keys = new ArrayList<String>();
 
         Document doc = Alexml.getDocument(path);
 
@@ -40,7 +41,12 @@ public class AlexSprite extends Group {
 
         for (SubSprite sub : subSprites) {
             addActor(sub);
+
+            for (String key : sub.getKeys()) {
+                addAnimation(key);
+            }
         }
+        setAnimation(keys.get(0));
     }
 
     public void setAnimation(String id) {
@@ -49,11 +55,17 @@ public class AlexSprite extends Group {
                 sub.setAnimation(id);
             }
         } catch (Exception e) {
-            throw new RuntimeException("No key");
+            throw new RuntimeException("Key Does Not Exist");
         }
     }
 
     public String getAnimation() {
         return currentKey;
+    }
+
+    protected void addAnimation(String id) {
+        if (!keys.contains(id)) {
+            keys.add(id);
+        }
     }
 }

@@ -56,8 +56,11 @@ class SubSprite extends Actor {
                 TextureAtlas atlas = new TextureAtlas();
                 Vector2[] thisDrawCoords = new Vector2[frames.getLength()];
 
-                //define speed here rather than line 100 so it is in the right scope for access later
-                String speed = "0.1";
+                //define speed here as it is animation wide
+                String speed = thisAnimation.getAttribute("speed");
+                if (speed.equals("0")) {
+                    speed = "0.1";
+                }
                 for (int i = 0; i < frames.getLength(); i++) {
                     Node currentFrame = frames.item(i);
                     if (currentFrame.getNodeType() == Node.ELEMENT_NODE) {
@@ -104,12 +107,6 @@ class SubSprite extends Actor {
 
                         if (drawY.equals("")) {
                             drawY = "0";
-                        }
-
-                        //No need to initialise speed;
-                        speed = eframe.getAttribute("speed");
-                        if (speed.equals("")) {
-                            speed = "0.1";
                         }
 
                         int thisDrawX = Integer.parseInt(drawX);
