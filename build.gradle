@@ -12,9 +12,9 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = '1.0'
+    version = 'v0.3-beta.1.1'
     ext {
-        appName = "test"
+        appName = "AlexEditor"
         gdxVersion = '1.9.3'
         roboVMVersion = '2.1.0'
         box2DLightsVersion = '1.4'
