@@ -47,11 +47,10 @@
 			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="95"/>
 			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="100"/>
 		</animation>
-		<animation id="relTest" speed="0.1">
+		<animation id="relTest" speed="0.001">
 			<frame drawx="0"/>
-			<frame drawx="~10"/>
-			<frame drawx="~10"/>
-			<frame drawx="~-20"/>
+			<frame drawx="~1" repeats="1000"/>
+			<frame drawx="~-1" repeats="1000"/>
 		</animation>
 	</subsprite>
 </sprite>

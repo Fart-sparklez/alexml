@@ -108,18 +108,25 @@ class SubSprite extends Actor {
                         isYRel = drawY.substring(0, 1).equals("~");
                         if (isYRel) drawY = drawY.substring(1);
 
-                        int thisDrawX = Integer.parseInt(drawX);
-                        if (isXRel) {
-                            thisDrawX += atlas.getRegions().get(atlas.getRegions().size - 1).getRegionX();
+                        String sRepeats = eframe.getAttribute("repeats");
+                        if (sRepeats.equals("")) {
+                            sRepeats = "1";
                         }
+                        int repeats = Integer.parseInt(sRepeats);
 
-                        int thisDrawY = Integer.parseInt(drawY);
-                        if (isYRel) {
-                            thisDrawY += atlas.getRegions().get(atlas.getRegions().size - 1).getRegionY();
+
+                        for (int reps = 0; reps < repeats; reps++) {
+                            int thisDrawX = Integer.parseInt(drawX);
+                            if (isXRel) {
+                                thisDrawX += thisDrawCoords.get(thisDrawCoords.size() - 1).x;
+                            }
+                            int thisDrawY = Integer.parseInt(drawY);
+                            if (isYRel) {
+                                thisDrawY += thisDrawCoords.get(thisDrawCoords.size() - 1).y;
+                            }
+                            thisDrawCoords.add(new Vector2(thisDrawX, thisDrawY));
+                            atlas.addRegion(Integer.toString(i), texture, Integer.parseInt(x), Integer.parseInt(y), Integer.parseInt(width), Integer.parseInt(height));
                         }
-
-                        thisDrawCoords.add(new Vector2(thisDrawX, thisDrawY));
-                        atlas.addRegion(Integer.toString(i), texture, Integer.parseInt(x), Integer.parseInt(y), Integer.parseInt(width), Integer.parseInt(height));
                     }
                 }
                 keys.add(thisAnimation.getAttribute("id"));
