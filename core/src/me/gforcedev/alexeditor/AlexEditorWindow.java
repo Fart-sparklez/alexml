@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -30,7 +31,7 @@ public class AlexEditorWindow extends ApplicationAdapter {
         sprite = new AlexSprite(spritename);
     }
 
-    public void setupUI() {
+    private void setupUI() {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
@@ -102,6 +103,17 @@ public class AlexEditorWindow extends ApplicationAdapter {
         table.add(info);
 
         stage.addActor(sprite);
+
+        stage.addListener(new InputListener() {
+            @Override
+            public boolean scrolled(InputEvent event, float x, float y, int amount) {
+
+                if (sprite.getScaleX() > 1 || amount < 0) {
+                    sprite.setScale(sprite.getScaleX() - amount);
+                }
+                return false;
+            }
+        });
     }
 
 
