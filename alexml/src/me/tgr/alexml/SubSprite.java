@@ -59,7 +59,7 @@ class SubSprite extends Actor {
 
                 //define speed here as it is animation wide
                 String speed = thisAnimation.getAttribute("speed");
-                if (speed.equals("0")) {
+                if (speed.equals("")) {
                     speed = "0.1";
                 }
                 for (int i = 0; i < frames.getLength(); i++) {

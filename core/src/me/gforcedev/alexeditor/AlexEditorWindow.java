@@ -42,12 +42,15 @@ public class AlexEditorWindow extends ApplicationAdapter {
         //just the top fifth
 
         table.setFillParent(true);
+        table.top();
+        table.left();
 
         TextButton openButton = new TextButton("Open File", skin);
         TextButton refreshButton = new TextButton("Refresh", skin);
         TextButton setButton = new TextButton("Set Animation", skin);
 
         inputArea = new TextField("", skin);
+        inputArea.setWidth(Gdx.graphics.getWidth());
         info = new Label("alexml", skin);
         infoReset = 0;
 
@@ -60,7 +63,7 @@ public class AlexEditorWindow extends ApplicationAdapter {
                     spritename = inputArea.getText();
 
                     sprite = new AlexSprite(spritename);
-                    sprite.setAnimation(currentAnimation);
+                    currentAnimation = sprite.getAnimation();
                     stage.addActor(sprite);
                 } catch (Exception ex) {
                     info.setText(ex.getMessage());
@@ -96,11 +99,11 @@ public class AlexEditorWindow extends ApplicationAdapter {
             }
         });
 
-        table.add(openButton);
-        table.add(setButton);
-        table.add(refreshButton);
-        table.add(inputArea);
-        table.add(info);
+        table.add(inputArea).row();
+        table.add(openButton).row();
+        table.add(setButton).row();
+        table.add(refreshButton).row();
+        table.add(info).row();
 
         stage.addActor(sprite);
 
