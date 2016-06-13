@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Array;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -28,7 +29,7 @@ import java.util.HashMap;
 class SubSprite extends Actor {
 
     private final HashMap<String, TextureAtlas> atlases;
-    private final HashMap<String, Vector2[]> drawCoords;
+    private final HashMap<String, ArrayList<Vector2>> drawCoords;
     private final HashMap<String, Float> speeds;
     private final ArrayList<String> keys;
     private String currentKey;
@@ -39,7 +40,7 @@ class SubSprite extends Actor {
 
     SubSprite(Element sub, NodeList subAnimations) {
         atlases = new HashMap<String, TextureAtlas>();
-        drawCoords = new HashMap<String, Vector2[]>();
+        drawCoords = new HashMap<String, ArrayList<Vector2>>();
         speeds = new HashMap<String, Float>();
         keys = new ArrayList<String>();
 
@@ -54,7 +55,7 @@ class SubSprite extends Actor {
                 NodeList frames = thisAnimation.getElementsByTagName("frame");
 
                 TextureAtlas atlas = new TextureAtlas();
-                Vector2[] thisDrawCoords = new Vector2[frames.getLength()];
+                ArrayList<Vector2> thisDrawCoords = new ArrayList<Vector2>();
 
                 //define speed here as it is animation wide
                 String speed = thisAnimation.getAttribute("speed");
@@ -90,24 +91,22 @@ class SubSprite extends Actor {
                         }
 
                         String drawX = eframe.getAttribute("drawx");
-                        boolean isXRel;
-
-                        isXRel = drawX.substring(0, 1).equals("~");
-                        drawX = drawX.substring(1);
-
                         if (drawX.equals("")) {
                             drawX = "0";
                         }
 
+                        boolean isXRel;
+                        isXRel = drawX.substring(0, 1).equals("~");
+                        if (isXRel) drawX = drawX.substring(1);
+
                         String drawY = eframe.getAttribute("drawy");
-                        boolean isYRel;
-
-                        isYRel = drawY.substring(0, 1).equals("~");
-                        drawY = drawY.substring(1);
-
                         if (drawY.equals("")) {
                             drawY = "0";
                         }
+
+                        boolean isYRel;
+                        isYRel = drawY.substring(0, 1).equals("~");
+                        if (isYRel) drawY = drawY.substring(1);
 
                         int thisDrawX = Integer.parseInt(drawX);
                         if (isXRel) {
@@ -119,7 +118,7 @@ class SubSprite extends Actor {
                             thisDrawY += atlas.getRegions().get(atlas.getRegions().size - 1).getRegionY();
                         }
 
-                        thisDrawCoords[i] = new Vector2(thisDrawX, thisDrawY);
+                        thisDrawCoords.add(new Vector2(thisDrawX, thisDrawY));
                         atlas.addRegion(Integer.toString(i), texture, Integer.parseInt(x), Integer.parseInt(y), Integer.parseInt(width), Integer.parseInt(height));
                     }
                 }
@@ -154,8 +153,8 @@ class SubSprite extends Actor {
         int thisFrameIndex = currentAnimation.getKeyFrameIndex(et); //get frame for setting draw coords
         TextureRegion thisFrame = currentAnimation.getKeyFrame(et, true);
 
-        setX(drawCoords.get(currentKey)[thisFrameIndex].x * getScaleX()); //set local coords for inside the alexsprite
-        setY(drawCoords.get(currentKey)[thisFrameIndex].y * getScaleY());
+        setX(drawCoords.get(currentKey).get(thisFrameIndex).x * getScaleX()); //set local coords for inside the alexsprite
+        setY(drawCoords.get(currentKey).get(thisFrameIndex).y * getScaleY());
 
         setWidth(thisFrame.getRegionWidth());
         setHeight(thisFrame.getRegionHeight());
@@ -165,5 +164,9 @@ class SubSprite extends Actor {
                 getWidth(), getHeight(),
                 getScaleX(), getScaleY(), getRotation()
         );
+    }
+
+    public ArrayList<String> getKeys() {
+        return keys;
     }
 }
