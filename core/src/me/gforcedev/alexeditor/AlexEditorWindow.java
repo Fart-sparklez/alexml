@@ -26,6 +26,8 @@ public class AlexEditorWindow extends ApplicationAdapter {
     public void create() {
         spritename = "data/sprite.xml";
         currentAnimation = "test";
+
+        sprite = new AlexSprite(spritename);
     }
 
     public void setupUI() {
@@ -99,7 +101,6 @@ public class AlexEditorWindow extends ApplicationAdapter {
         table.add(inputArea);
         table.add(info);
 
-        sprite = new AlexSprite(spritename);
         stage.addActor(sprite);
     }
 
