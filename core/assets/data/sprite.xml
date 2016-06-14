@@ -1,5 +1,5 @@
 <sprite>
-	<subsprite path="data/sprite.png">
+	<subsprite path="sprite.png">
 		<animation id="test" speed="0.001">
 			<frame x="0" y="0" width="200" height="200" drawx="0" drawy="0"/>
 		</animation>

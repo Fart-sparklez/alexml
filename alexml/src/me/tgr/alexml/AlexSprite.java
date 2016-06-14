@@ -1,5 +1,6 @@
 package me.tgr.alexml;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -19,10 +20,28 @@ public class AlexSprite extends Group {
     private final ArrayList<SubSprite> subSprites;
     private final ArrayList<String> keys;
     private String currentKey;
+    private Texture texture;
 
     public AlexSprite(String path) {
         subSprites = new ArrayList<SubSprite>();
         keys = new ArrayList<String>();
+        String texturePath;
+
+        if (path.contains("\\")) {
+            String[] folders = path.split("\\\\");
+            texturePath = "";
+            for (int i = 0; i < folders.length - 1; i++) {
+                texturePath += folders[i];
+                texturePath += "\\";
+            }
+        } else {
+            String[] folders = path.split("/");
+            texturePath = "";
+            for (int i = 0; i < folders.length - 1; i++) {
+                texturePath += folders[i];
+                texturePath += "/";
+            }
+        }
 
         Document doc = Alexml.getDocument(path);
 
@@ -35,7 +54,7 @@ public class AlexSprite extends Group {
             for (int i = 0; i < length; i++) {
                 Element sub = (Element) subsprites.item(i);
 
-                subSprites.add(new SubSprite(sub, sub.getElementsByTagName("animation")));
+                subSprites.add(new SubSprite(sub, sub.getElementsByTagName("animation"), texturePath));
             }
         }
 

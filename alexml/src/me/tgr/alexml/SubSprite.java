@@ -38,16 +38,21 @@ class SubSprite extends Actor {
     private float et;
 
 
-    SubSprite(Element sub, NodeList subAnimations) {
+    SubSprite(Element sub, NodeList subAnimations, String texturePath) {
         atlases = new HashMap<String, TextureAtlas>();
         drawCoords = new HashMap<String, ArrayList<Vector2>>();
         speeds = new HashMap<String, Float>();
         keys = new ArrayList<String>();
 
+        Texture texture;
 
         String thisPath = sub.getAttribute("path");
+        if (texturePath.contains("\\")) {
+            texture = new Texture(texturePath + "\\" + thisPath);
+        } else {
+            texture = new Texture(texturePath + "/" + thisPath);
+        }
 
-        Texture texture = new Texture(Gdx.files.internal(thisPath));
 
         for (int anim = 0; anim < subAnimations.getLength(); anim++) {
             if (subAnimations.item(anim).getNodeType() == Node.ELEMENT_NODE) {
