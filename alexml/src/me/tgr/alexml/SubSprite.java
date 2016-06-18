@@ -68,39 +68,56 @@ class SubSprite extends Actor {
 
                 //define speed here as it is animation wide
                 String speed = thisAnimation.getAttribute("speed");
-                if (speed.equals("")) {
-                    speed = "0.1";
-                }
+                if (speed.equals("")) speed = "0.1";
+
+
                 for (int i = 0; i < frames.getLength(); i++) {
                     Node currentFrame = frames.item(i);
                     if (currentFrame.getNodeType() == Node.ELEMENT_NODE) {
                         Element eframe = (Element) currentFrame;
 
-
                         //If there is no value in the xml file, getAttribute returns a blank string.
-                        //Therefore, if it does return a blank string, then we set it to a default value.
+                        //Therefore, if it does return a blank string, then we set it to a default value, which is
+                        //the related value from lastFrame. If this is the first frame, just render the entire image
 
+                        TextureRegion lastFrame;
+                        try {
+                            lastFrame = atlas.getRegions().get(atlas.getRegions().size - 1);
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            lastFrame = new TextureRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());
+                        }
                         //x
                         String x = eframe.getAttribute("x");
-                        if (x.equals("")) x = "0";
+                        if (x.equals("")) x = Integer.toString(lastFrame.getRegionX());
 
                         //y
                         String y = eframe.getAttribute("y");
-                        if (y.equals("")) y = "0";
+                        if (y.equals("")) y = Integer.toString(lastFrame.getRegionY());
 
                         //width
                         String width = eframe.getAttribute("width");
-                        if (width.equals("")) width = "10";
+                        if (width.equals("")) width = Integer.toString(lastFrame.getRegionWidth());
 
                         //height
                         String height = eframe.getAttribute("height");
-                        if (height.equals("")) height = "10";
+                        if (height.equals("")) height = Integer.toString(lastFrame.getRegionHeight());
 
+
+                        //The defaults are set from lastDrawCoords and lastRotation
+                        //Defined pretty much the same as lastFrame.
+                        Vector2 lastDrawCoords;
+                        int lastRotation;
+                        try {
+                            lastDrawCoords = thisDrawCoords.get(thisDrawCoords.size() - 1);
+                            lastRotation = thisRotations.get(thisRotations.size() - 1);
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            lastDrawCoords = new Vector2(0, 0);
+                            lastRotation = 0;
+                        }
 
                         //drawX with relative logic
                         String drawX = eframe.getAttribute("drawx");
-                        if (drawX.equals("")) drawX = "0";
-
+                        if (drawX.equals("")) drawX = Integer.toString(((int) lastDrawCoords.x));
                         boolean isXRel;
                         isXRel = drawX.substring(0, 1).equals("~");
                         if (isXRel) drawX = drawX.substring(1);
@@ -108,8 +125,7 @@ class SubSprite extends Actor {
 
                         //drawY with relative logic
                         String drawY = eframe.getAttribute("drawy");
-                        if (drawY.equals("")) drawY = "0";
-
+                        if (drawY.equals("")) drawY = Integer.toString(((int) lastDrawCoords.y));
                         boolean isYRel;
                         isYRel = drawY.substring(0, 1).equals("~");
                         if (isYRel) drawY = drawY.substring(1);
@@ -117,7 +133,7 @@ class SubSprite extends Actor {
 
                         //rotation with relative logic
                         String rotation = eframe.getAttribute("rotation");
-                        if (rotation .equals("")) rotation = "0";
+                        if (rotation .equals("")) rotation = Integer.toString(lastRotation);
                         boolean isRotateRel;
                         isRotateRel = rotation.substring(0, 1).equals("~");
                         if (isRotateRel) rotation = rotation.substring(1);
