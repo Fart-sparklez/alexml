@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
@@ -30,6 +31,7 @@ class SubSprite extends Actor {
 
     private final HashMap<String, TextureAtlas> atlases;
     private final HashMap<String, ArrayList<Vector2>> drawCoords;
+    private final HashMap<String, ArrayList<Integer>> rotations;
     private final HashMap<String, Float> speeds;
     private final ArrayList<String> keys;
     private String currentKey;
@@ -42,6 +44,7 @@ class SubSprite extends Actor {
         atlases = new HashMap<String, TextureAtlas>();
         drawCoords = new HashMap<String, ArrayList<Vector2>>();
         speeds = new HashMap<String, Float>();
+        rotations = new HashMap<String, ArrayList<Integer>>();
         keys = new ArrayList<String>();
 
         Texture texture;
@@ -61,6 +64,7 @@ class SubSprite extends Actor {
 
                 TextureAtlas atlas = new TextureAtlas();
                 ArrayList<Vector2> thisDrawCoords = new ArrayList<Vector2>();
+                ArrayList<Integer> thisRotations = new ArrayList<Integer>();
 
                 //define speed here as it is animation wide
                 String speed = thisAnimation.getAttribute("speed");
@@ -75,61 +79,80 @@ class SubSprite extends Actor {
 
                         //If there is no value in the xml file, getAttribute returns a blank string.
                         //Therefore, if it does return a blank string, then we set it to a default value.
+
+                        //x
                         String x = eframe.getAttribute("x");
-                        if (x.equals("")) {
-                            x = "0";
-                        }
+                        if (x.equals("")) x = "0";
 
+                        //y
                         String y = eframe.getAttribute("y");
-                        if (y.equals("")) {
-                            y = "0";
-                        }
+                        if (y.equals("")) y = "0";
 
+                        //width
                         String width = eframe.getAttribute("width");
-                        if (width.equals("")) {
-                            width = "10";
-                        }
+                        if (width.equals("")) width = "10";
 
+                        //height
                         String height = eframe.getAttribute("height");
-                        if (height.equals("")) {
-                            height = "10";
-                        }
+                        if (height.equals("")) height = "10";
 
+
+                        //drawX with relative logic
                         String drawX = eframe.getAttribute("drawx");
-                        if (drawX.equals("")) {
-                            drawX = "0";
-                        }
+                        if (drawX.equals("")) drawX = "0";
 
                         boolean isXRel;
                         isXRel = drawX.substring(0, 1).equals("~");
                         if (isXRel) drawX = drawX.substring(1);
 
+
+                        //drawY with relative logic
                         String drawY = eframe.getAttribute("drawy");
-                        if (drawY.equals("")) {
-                            drawY = "0";
-                        }
+                        if (drawY.equals("")) drawY = "0";
 
                         boolean isYRel;
                         isYRel = drawY.substring(0, 1).equals("~");
                         if (isYRel) drawY = drawY.substring(1);
 
+
+                        //rotation with relative logic
+                        String rotation = eframe.getAttribute("rotation");
+                        if (rotation .equals("")) rotation = "0";
+                        boolean isRotateRel;
+                        isRotateRel = rotation.substring(0, 1).equals("~");
+                        if (isRotateRel) rotation = rotation.substring(1);
+
+
+
                         String sRepeats = eframe.getAttribute("repeats");
                         if (sRepeats.equals("")) {
                             sRepeats = "1";
                         }
+
                         int repeats = Integer.parseInt(sRepeats);
 
 
                         for (int reps = 0; reps < repeats; reps++) {
+                            //relative logic on drawx, drawy, roation has to be done inside the repeat loop
+
+                            //drawx
                             int thisDrawX = Integer.parseInt(drawX);
                             if (isXRel) {
                                 thisDrawX += thisDrawCoords.get(thisDrawCoords.size() - 1).x;
                             }
+
+                            //drawy
                             int thisDrawY = Integer.parseInt(drawY);
                             if (isYRel) {
                                 thisDrawY += thisDrawCoords.get(thisDrawCoords.size() - 1).y;
                             }
+
+                            int thisRotation = Integer.parseInt(rotation);
+                            if (isRotateRel) {
+                                thisRotation += thisRotations.get(thisRotations.size() - 1);
+                            }
                             thisDrawCoords.add(new Vector2(thisDrawX, thisDrawY));
+                            thisRotations.add(thisRotation);
                             atlas.addRegion(Integer.toString(i), texture, Integer.parseInt(x), Integer.parseInt(y), Integer.parseInt(width), Integer.parseInt(height));
                         }
                     }
@@ -137,6 +160,7 @@ class SubSprite extends Actor {
                 keys.add(thisAnimation.getAttribute("id"));
                 atlases.put(thisAnimation.getAttribute("id"), atlas);
                 drawCoords.put(thisAnimation.getAttribute("id"), thisDrawCoords);
+                rotations.put(thisAnimation.getAttribute("id"), thisRotations);
                 speeds.put(thisAnimation.getAttribute("id"), Float.parseFloat(speed));
             }
         }
@@ -167,6 +191,9 @@ class SubSprite extends Actor {
 
         setX(drawCoords.get(currentKey).get(thisFrameIndex).x * getScaleX()); //set local coords for inside the alexsprite
         setY(drawCoords.get(currentKey).get(thisFrameIndex).y * getScaleY());
+        setRotation(rotations.get(currentKey).get(thisFrameIndex));
+        setOriginX(thisFrame.getRegionWidth() / 2);
+        setOriginY(thisFrame.getRegionHeight() / 2);
 
         setWidth(thisFrame.getRegionWidth());
         setHeight(thisFrame.getRegionHeight());

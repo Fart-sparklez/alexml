@@ -1,51 +1,11 @@
 <sprite>
 	<subsprite path="sprite.png">
-		<animation id="test" speed="0.001">
+		<animation id="still" speed="0.001">
 			<frame x="0" y="0" width="200" height="200" drawx="0" drawy="0"/>
 		</animation>
-		<animation id="test2" speed="0.01">
+		<animation id="spinTest" speed="0.01">
 			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="100"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="95"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="90"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="85"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="80"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="75"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="70"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="65"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="60"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="55"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="50"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="45"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="40"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="35"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="30"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="25"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="20"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="15"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="10"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="5"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="0"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="0"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="5"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="10"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="15"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="20"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="25"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="30"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="35"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="40"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="45"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="50"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="55"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="60"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="65"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="70"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="75"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="80"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="85"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="90"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="95"/>
-			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="100"/>
+			<frame x="0" y="0" width="50" height="50" drawx="0" drawy="100" rotation="~2" repeats="180"/>
 		</animation>
 		<animation id="relTest" speed="0.001">
 			<frame drawx="0"/>

@@ -26,9 +26,9 @@ public class AlexEditorWindow extends ApplicationAdapter {
     @Override
     public void create() {
         spritename = "data/sprite.xml";
-        currentAnimation = "test";
 
         sprite = new AlexSprite(spritename);
+        currentAnimation = sprite.getAnimation();
     }
 
     private void setupUI() {
