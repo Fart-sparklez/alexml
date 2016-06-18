@@ -25,92 +25,70 @@ public class AlexEditorWindow extends ApplicationAdapter {
 
     @Override
     public void create() {
+        //just openFile with sprite.remove and stage.addactor taken out
         spritename = "data/sprite.xml";
 
         sprite = new AlexSprite(spritename);
         currentAnimation = sprite.getAnimation();
+
+        setupUI();
     }
 
     private void setupUI() {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        //ui
+        //skin and container table
         Skin skin = new Skin(Gdx.files.internal("data/uiskin.json"));
-        Table table = new Table();
-        stage.addActor(table);
-        //just the top fifth
 
+        Table table = new Table().top().left();
         table.setFillParent(true);
-        table.top();
-        table.left();
+        stage.addActor(table);
 
+        //buttons
         TextButton openButton = new TextButton("Open File", skin);
         TextButton refreshButton = new TextButton("Refresh", skin);
         TextButton setButton = new TextButton("Set Animation", skin);
 
-        inputArea = new TextField("", skin);
-        inputArea.setWidth(Gdx.graphics.getWidth());
-        info = new Label("alexml", skin);
-        infoReset = 0;
-
-
+        //button listeners
         openButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
-                try {
-                    sprite.remove();
-                    spritename = inputArea.getText();
-
-                    sprite = new AlexSprite(spritename);
-                    currentAnimation = sprite.getAnimation();
-                    stage.addActor(sprite);
-                } catch (Exception ex) {
-                    info.setText(ex.getMessage());
-                    infoReset = 0.8f;
-                }
+                openFile(inputArea.getText());
             }
         });
         setButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent e, float x, float y) {
-                try {
-                    currentAnimation = inputArea.getText();
-
-                    sprite.setAnimation(currentAnimation);
-                } catch (Exception ex) {
-                    info.setText(ex.getMessage());
-                    infoReset = 0.8f;
-                }
+            public void clicked(InputEvent e, float x, float y) {setCurrentAnimation(inputArea.getText());
             }
         });
         refreshButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
-                try {
-                    sprite.remove();
-                    sprite = new AlexSprite(spritename);
-                    sprite.setAnimation(currentAnimation);
-                    stage.addActor(sprite);
-                } catch (Exception ex) {
-                    info.setText(ex.getMessage());
-                    infoReset = 0.8f;
-                }
+                refresh();
             }
         });
 
+        //input area and info text
+        inputArea = new TextField("", skin);
+        inputArea.setWidth(Gdx.graphics.getWidth());
+        info = new Label("alexml", skin);
+        infoReset = 0;
+
+        //add everything to the table
         table.add(inputArea).row();
         table.add(openButton).row();
         table.add(setButton).row();
         table.add(refreshButton).row();
         table.add(info).row();
 
+        //make sure the sprite is still there after resize - where this function will be called
         stage.addActor(sprite);
 
+        //setup the zooming listener
         stage.addListener(new InputListener() {
             @Override
             public boolean scrolled(InputEvent event, float x, float y, int amount) {
-
                 if (sprite.getScaleX() > 1 || amount < 0) {
                     sprite.setScale(sprite.getScaleX() - amount);
                 }
@@ -128,6 +106,7 @@ public class AlexEditorWindow extends ApplicationAdapter {
         stage.act();
         stage.draw();
 
+        //info reset so error messages are only there a certain amout of time (usually set as 0.8 seconds)
         infoReset -= Gdx.graphics.getDeltaTime();
         if (infoReset < 0 && !info.getText().toString().equals("alexml")) {
             info.setText("alexml");
@@ -142,5 +121,42 @@ public class AlexEditorWindow extends ApplicationAdapter {
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+    private void openFile(String path) {
+        try {
+            sprite.remove();
+            spritename = path;
+
+            sprite = new AlexSprite(spritename);
+            currentAnimation = sprite.getAnimation();
+            stage.addActor(sprite);
+        } catch (Exception ex) {
+            info.setText(ex.getMessage());
+            infoReset = 0.8f;
+        }
+    }
+
+    private void refresh() {
+        try {
+            sprite.remove();
+            sprite = new AlexSprite(spritename);
+            sprite.setAnimation(currentAnimation);
+            stage.addActor(sprite);
+        } catch (Exception ex) {
+            info.setText(ex.getMessage());
+            infoReset = 0.8f;
+        }
+    }
+
+    private void setCurrentAnimation(String key) {
+        try {
+            currentAnimation = key;
+
+            sprite.setAnimation(currentAnimation);
+        } catch (Exception ex) {
+            info.setText(ex.getMessage());
+            infoReset = 0.8f;
+        }
     }
 }
