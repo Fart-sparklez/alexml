@@ -60,6 +60,7 @@ class SubSprite extends Actor {
         for (int anim = 0; anim < subAnimations.getLength(); anim++) {
             if (subAnimations.item(anim).getNodeType() == Node.ELEMENT_NODE) {
                 Element thisAnimation = (Element) subAnimations.item(anim);
+                String id = thisAnimation.getAttribute("id");
                 NodeList frames = thisAnimation.getElementsByTagName("frame");
 
                 TextureAtlas atlas = new TextureAtlas();
@@ -173,11 +174,11 @@ class SubSprite extends Actor {
                         }
                     }
                 }
-                keys.add(thisAnimation.getAttribute("id"));
-                atlases.put(thisAnimation.getAttribute("id"), atlas);
-                drawCoords.put(thisAnimation.getAttribute("id"), thisDrawCoords);
-                rotations.put(thisAnimation.getAttribute("id"), thisRotations);
-                speeds.put(thisAnimation.getAttribute("id"), Float.parseFloat(speed));
+                keys.add(id);
+                atlases.put(id, atlas);
+                drawCoords.put(id, thisDrawCoords);
+                rotations.put(id, thisRotations);
+                speeds.put(id, Float.parseFloat(speed));
             }
         }
         setOrigin(0, 0);
@@ -194,10 +195,6 @@ class SubSprite extends Actor {
         currentAnimation.setPlayMode(Animation.PlayMode.LOOP);
     }
 
-    @Override
-    public void act(float delta) {
-    }
-
 
     @Override
     public void draw(Batch batch, float alpha) {
@@ -205,9 +202,12 @@ class SubSprite extends Actor {
         int thisFrameIndex = currentAnimation.getKeyFrameIndex(et); //get frame for setting draw coords
         TextureRegion thisFrame = currentAnimation.getKeyFrame(et, true);
 
-        setX(drawCoords.get(currentKey).get(thisFrameIndex).x * getScaleX()); //set local coords for inside the alexsprite
+        //set local coords for inside the alexsprite
+        setX(drawCoords.get(currentKey).get(thisFrameIndex).x * getScaleX());
         setY(drawCoords.get(currentKey).get(thisFrameIndex).y * getScaleY());
         setRotation(rotations.get(currentKey).get(thisFrameIndex));
+
+        //set origin coords to the centre for roation
         setOriginX(thisFrame.getRegionWidth() / 2);
         setOriginY(thisFrame.getRegionHeight() / 2);
 
@@ -221,7 +221,7 @@ class SubSprite extends Actor {
         );
     }
 
-    public ArrayList<String> getKeys() {
+    ArrayList<String> getKeys() {
         return keys;
     }
 }
