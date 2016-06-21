@@ -19,6 +19,7 @@ public class AlexEditorWindow extends ApplicationAdapter {
     private TextField inputArea;
     private Label info;
     private float infoReset;
+    private final String labelDefault = "Alexml v0.4-beta.1";
 
 
     private AlexSprite sprite;
@@ -39,7 +40,7 @@ public class AlexEditorWindow extends ApplicationAdapter {
         Gdx.input.setInputProcessor(stage);
 
         //skin and container table
-        Skin skin = new Skin(Gdx.files.internal("data/uiskin.json"));
+        Skin skin = new Skin(Gdx.files.internal("data/skin.json"));
 
         Table table = new Table().top().left();
         table.setFillParent(true);
@@ -72,7 +73,7 @@ public class AlexEditorWindow extends ApplicationAdapter {
         //input area and info text
         inputArea = new TextField("", skin);
         inputArea.setWidth(Gdx.graphics.getWidth());
-        info = new Label("alexml", skin);
+        info = new Label(labelDefault, skin);
         infoReset = 0;
 
         //add everything to the table
@@ -108,8 +109,8 @@ public class AlexEditorWindow extends ApplicationAdapter {
 
         //info reset so error messages are only there a certain amout of time (usually set as 0.8 seconds)
         infoReset -= Gdx.graphics.getDeltaTime();
-        if (infoReset < 0 && !info.getText().toString().equals("alexml")) {
-            info.setText("alexml");
+        if (infoReset < 0 && !info.getText().toString().equals(labelDefault)) {
+            info.setText(labelDefault);
         }
     }
 
