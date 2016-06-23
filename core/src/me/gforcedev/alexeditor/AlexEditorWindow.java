@@ -39,8 +39,11 @@ public class AlexEditorWindow extends ApplicationAdapter {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
+        //make sure the sprite is still there after resize - where this function will be called
+        stage.addActor(sprite);
+
         //skin and container table
-        Skin skin = new Skin(Gdx.files.internal("data/skin.json"));
+        Skin skin = new Skin(Gdx.files.internal("data/uiskin.json"));
 
         Table table = new Table().top().left();
         table.setFillParent(true);
@@ -82,9 +85,6 @@ public class AlexEditorWindow extends ApplicationAdapter {
         table.add(setButton).row();
         table.add(refreshButton).row();
         table.add(info).row();
-
-        //make sure the sprite is still there after resize - where this function will be called
-        stage.addActor(sprite);
 
         //setup the zooming listener
         stage.addListener(new InputListener() {
@@ -128,10 +128,10 @@ public class AlexEditorWindow extends ApplicationAdapter {
         try {
             sprite.remove();
             spritename = path;
-
             sprite = new AlexSprite(spritename);
             currentAnimation = sprite.getAnimation();
             stage.addActor(sprite);
+            sprite.setZIndex(0);
         } catch (Exception ex) {
             info.setText(ex.getMessage());
             infoReset = 0.8f;
@@ -144,6 +144,7 @@ public class AlexEditorWindow extends ApplicationAdapter {
             sprite = new AlexSprite(spritename);
             sprite.setAnimation(currentAnimation);
             stage.addActor(sprite);
+            sprite.setZIndex(0);
         } catch (Exception ex) {
             info.setText(ex.getMessage());
             infoReset = 0.8f;
